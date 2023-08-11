@@ -1,4 +1,12 @@
-import { Box, Divider, Drawer, Icon, List, ListItem, ListItemButton } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Drawer,
+  Icon,
+  List,
+  ListItem,
+  ListItemButton,
+} from "@mui/material";
 import { useConnectWallet } from "@web3-onboard/react";
 import { useContext, useState } from "react";
 import { BsMoonFill, BsSun } from "react-icons/bs";
@@ -17,8 +25,24 @@ export default function LeftNav({ leftOpen, handleTheme }) {
   const { connectWalletHandler, disconnectWalletHandler } = useWallet();
 
   return (
-    <Drawer anchor="left" open={open} onClose={() => { setOpen(false); leftOpen(false) }}>
-      <Box width={"10rem"} display="flex" justifyContent={"center"} height={"100%"} sx={{ backgroundColor: theme === "light" ? "#FFFFFF" : "#0A1929", color: theme === "light" ? "#000000" : "#FFFFFF" }}>
+    <Drawer
+      anchor="left"
+      open={open}
+      onClose={() => {
+        setOpen(false);
+        leftOpen(false);
+      }}
+    >
+      <Box
+        width={"10rem"}
+        display="flex"
+        justifyContent={"center"}
+        height={"100%"}
+        sx={{
+          backgroundColor: theme === "light" ? "#FFFFFF" : "#0A1929",
+          color: theme === "light" ? "#000000" : "#FFFFFF",
+        }}
+      >
         <List sx={{ width: "100%" }}>
           <ListItem>
             <Search width={"100%"} />
@@ -27,14 +51,37 @@ export default function LeftNav({ leftOpen, handleTheme }) {
             if (link.showInNavigation) {
               return (
                 <ListItemButton key={`LeftNav-${i}`}>
-                  <Link to={link.path} style={{ width: "100%", display: "flex", justifyContent: "center", color: "inherit", textDecoration: "none" }}>{link.name}</Link>
+                  <Link
+                    to={link.path}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {link.name}
+                  </Link>
                 </ListItemButton>
               );
             }
             return "";
           })}
           <ListItemButton>
-            <Icon color="inherit" size='small' sx={{ width: "100%", display: "flex", justifyContent: "center", color: "inherit", textDecoration: "none", "&:hover": { background: "transparent" } }} onClick={() => handleTheme()}>
+            <Icon
+              color="inherit"
+              size="small"
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                color: "inherit",
+                textDecoration: "none",
+                "&:hover": { background: "transparent" },
+              }}
+              onClick={() => handleTheme()}
+            >
               {theme === "light" ? <BsMoonFill /> : <BsSun />}
             </Icon>
           </ListItemButton>
@@ -49,8 +96,9 @@ export default function LeftNav({ leftOpen, handleTheme }) {
                 letterSpacing: "1.64px",
                 "&:hover": {
                   color: "#FFFFFF",
-                  background: "linear-gradient(43deg, #DAAD76 0%, #FA4947 100%)"
-                }
+                  background:
+                    "linear-gradient(43deg, #DAAD76 0%, #FA4947 100%)",
+                },
               }}
             >
               Contact Us
@@ -64,13 +112,19 @@ export default function LeftNav({ leftOpen, handleTheme }) {
               onClick={() =>
                 wallet ? disconnectWalletHandler() : connectWalletHandler()
               }
-              style={{ fontFamily: "Advent Pro", fontWeight: "700", letterSpacing: "0.64px", fontSize: "10px" }}
+              style={{
+                fontFamily: "Advent Pro",
+                fontWeight: "700",
+                letterSpacing: "0.64px",
+                fontSize: "10px",
+              }}
             >
-              {connecting ? "Connecting" : wallet ? "Disconnect" : "Connect"} Wallet
+              {connecting ? "Connecting" : wallet ? "Disconnect" : "Connect"}{" "}
+              Wallet
             </ButtonComponent>
           </ListItem>
         </List>
       </Box>
     </Drawer>
-  )
+  );
 }

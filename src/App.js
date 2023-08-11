@@ -1,24 +1,24 @@
-import { Toolbar } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import coinbaseWalletModule from '@web3-onboard/coinbase';
-import injectedModule from '@web3-onboard/injected-wallets';
-import { Web3OnboardProvider, init } from '@web3-onboard/react';
+import { Toolbar } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import coinbaseWalletModule from "@web3-onboard/coinbase";
+import injectedModule from "@web3-onboard/injected-wallets";
+import { Web3OnboardProvider, init } from "@web3-onboard/react";
 import React, { useCallback, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { status } from "./apis/auth";
-import Appbar from './common/Appbar';
+import Appbar from "./common/Appbar";
 import Routers from "./common/Routers";
 import UserStore from "./contexts/UserStore";
 
-const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true })
-const INFURA_KEY = ''
+const coinbaseWalletSdk = coinbaseWalletModule({ darkMode: true });
+const INFURA_KEY = "";
 const ethereumRopsten = {
-  id: '0x3',
-  token: 'rETH',
-  label: 'Ethereum Ropsten',
-  rpcUrl: `https://ropsten.infura.io/v3/${INFURA_KEY}`
+  id: "0x3",
+  token: "rETH",
+  label: "Ethereum Ropsten",
+  rpcUrl: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
 };
 
 const chains = [ethereumRopsten];
@@ -27,10 +27,10 @@ const web3Onboard = init({
   wallets,
   chains,
   appMetadata: {
-    name: 'Lemon',
-    icon: '<svg>App Icon</svg>',
-    description: 'Choose a wallet to connect'
-  }
+    name: "Lemon",
+    icon: "<svg>App Icon</svg>",
+    description: "Choose a wallet to connect",
+  },
 });
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
   const lightTheme = createTheme({
     palette: {
       background: {
-        default: "#FFFFFF"
+        default: "#FFFFFF",
       },
     },
   });
@@ -50,26 +50,26 @@ function App() {
   const darkTheme = createTheme({
     palette: {
       background: {
-        default: "#121212"
+        default: "#121212",
       },
       text: {
-        primary: "#ffffff"
-      }
+        primary: "#ffffff",
+      },
     },
     components: {
       MuiTextField: {
         styleOverrides: {
           root: {
             "& label": {
-              color: "#ffffff"
+              color: "#ffffff",
             },
             "& .MuiInput-underline:before": {
-              borderBottomColor: "#ffffff"
-            }
-          }
-        }
-      }
-    }
+              borderBottomColor: "#ffffff",
+            },
+          },
+        },
+      },
+    },
   });
 
   const getStatus = useCallback(async () => {
@@ -91,7 +91,18 @@ function App() {
 
   return (
     <Web3OnboardProvider web3Onboard={web3Onboard}>
-      <UserStore.Provider value={{ theme, setTheme, token, setToken, user, setUser, defaultAccount, setDefaultAccount }}>
+      <UserStore.Provider
+        value={{
+          theme,
+          setTheme,
+          token,
+          setToken,
+          user,
+          setUser,
+          defaultAccount,
+          setDefaultAccount,
+        }}
+      >
         <BrowserRouter>
           <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
             <Appbar />
