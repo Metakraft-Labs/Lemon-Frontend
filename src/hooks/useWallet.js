@@ -25,7 +25,7 @@ export const useWallet = () => {
 
   const disconnectWalletHandler = async () => {
     if (wallet) {
-      await disconnect({ label: wallet.provider });
+      await disconnect(wallet);
 
       setDefaultAccount(null);
       setToken(null);
