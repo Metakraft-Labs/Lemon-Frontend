@@ -19,7 +19,7 @@ export const Links = [
     showInNavigation: true,
   },
   {
-    name: "Ai Bots",
+    name: "AI Bots",
     path: "/ai-bots",
     element: <AiList />,
     showInNavigation: true,
