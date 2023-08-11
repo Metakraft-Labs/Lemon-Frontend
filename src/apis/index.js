@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+
 export const noAuth = async ({ method, url, data = {}, options = {} }) => {
     try {
         const res = await axios({
@@ -16,7 +17,7 @@ export const noAuth = async ({ method, url, data = {}, options = {} }) => {
             throw new Error(res?.data?.message);
         }
 
-        return res.data;
+        return res?.data;
     }
     catch (err) {
         toast.error(err?.response?.data?.message || err?.message || "Something went wrong!");
@@ -31,7 +32,7 @@ export const auth = async ({ method, url, data = {}, options = {} }) => {
             data,
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage?.getItem("session") || ""}`
+                Authorization: `Bearer ${localStorage?.getItem("token") || ""}`
             },
             ...options
         });
@@ -40,7 +41,7 @@ export const auth = async ({ method, url, data = {}, options = {} }) => {
             throw new Error(res?.data?.message);
         }
 
-        return res.data;
+        return res?.data;
     }
     catch (err) {
         toast.error(err?.response?.data?.message || err?.message || "Something went wrong!");
