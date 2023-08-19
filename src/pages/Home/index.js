@@ -1,6 +1,7 @@
 import { Box, Divider } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import Footer from "../../components/Footer";
+import UserStore from "../../contexts/UserStore";
 import Title from "../../shared/Title";
 import Ai from "./Ai";
 import BottomText from "./BottomText";
@@ -9,6 +10,8 @@ import Header from "./Header";
 import Metaverse from "./Metaverse";
 
 export default function Home() {
+  const { theme } = useContext(UserStore);
+
   return (
     <Box
       sx={{
@@ -26,7 +29,9 @@ export default function Home() {
         <Divider
           sx={{
             marginTop: "43px",
-            border: "1px solid var(--dark, #0A142F)",
+            border: `1px solid var(--dark, ${
+              theme === "light" ? "#0A142F" : "#FFFFFF"
+            })`,
             width: "90%",
             opacity: "0.12",
           }}
