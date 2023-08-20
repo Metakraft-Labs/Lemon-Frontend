@@ -1,9 +1,21 @@
-import { Box, Grid } from "@mui/material";
-import React from "react";
-import demoImg from "../../../assets/images/demoimg.png";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
+import { list } from "../../../apis/entities";
 import ItemBox from "../../../components/ItemBox";
 
 export default function Games() {
+  const [games, setGames] = useState(null);
+
+  const fetchGames = useCallback(async () => {
+    const res = await list({ type: "game", limit: 5 });
+
+    setGames(res?.data || []);
+  }, []);
+
+  useEffect(() => {
+    fetchGames();
+  }, [fetchGames]);
+
   return (
     <Grid
       container
@@ -20,73 +32,104 @@ export default function Games() {
       pt={"10px"}
       justifyContent={"space-between"}
     >
-      <Box
-        display={"flex"}
-        flexDirection={"column"}
-        justifyContent={"space-between"}
-        width={"475px"}
-      >
-        <ItemBox
-          title={"Demo"}
-          image={demoImg}
-          style={{ width: "100%", height: "462px" }}
-          description={
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-          }
-          link={"/games/1"}
-        />
-        <Box display={"flex"} justifyContent={"space-between"}>
-          <ItemBox
-            title={"Demo"}
-            image={demoImg}
-            style={{ width: "304px", height: "185px" }}
-            description={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-            }
-            link={"/games/1"}
-          />
+      {!games ? (
+        <CircularProgress />
+      ) : !games?.length ? (
+        <Typography>No games found</Typography>
+      ) : (
+        <>
           <Box
             display={"flex"}
             flexDirection={"column"}
             justifyContent={"space-between"}
+            width={"475px"}
+            sx={{
+              xl: {
+                height: "700px",
+              },
+              lg: {
+                height: "700px",
+              },
+              md: {
+                height: "350px",
+              },
+              sm: {
+                height: "350px",
+              },
+              xs: {
+                height: "350px",
+              },
+            }}
           >
             <ItemBox
-              title={"Demo"}
-              image={demoImg}
-              style={{ width: "136px", height: "90px" }}
-              description={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-              }
-              link={"/games/1"}
+              title={games[0]?.name}
+              image={`${process.env.REACT_APP_S3}/images/${games[0]?.thumbnail}`}
+              style={{ width: "100%", height: "462px" }}
+              description={games[0]?.description}
+              link={`/games/${games[0]?.id}`}
             />
+            <Box display={"flex"} justifyContent={"space-between"}>
+              <ItemBox
+                title={games[1]?.name}
+                image={`${process.env.REACT_APP_S3}/images/${games[1]?.thumbnail}`}
+                style={{ width: "304px", height: "285px" }}
+                description={games[1]?.description}
+                link={`/games/${games[1]?.id}`}
+              />
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                justifyContent={"space-between"}
+              >
+                <ItemBox
+                  title={games[2]?.name}
+                  image={`${process.env.REACT_APP_S3}/images/${games[2]?.thumbnail}`}
+                  style={{ width: "137px", height: "136px" }}
+                  description={games[2]?.description}
+                  link={`/games/${games[2]?.id}`}
+                />
+                <ItemBox
+                  title={games[3]?.name}
+                  image={`${process.env.REACT_APP_S3}/images/${games[3]?.thumbnail}`}
+                  style={{ width: "137px", height: "136px" }}
+                  description={games[3]?.description}
+                  link={`/games/${games[3]?.id}`}
+                />
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            sx={{
+              xl: {
+                height: "800px",
+              },
+              lg: {
+                height: "800px",
+              },
+              md: {
+                height: "350px",
+              },
+              sm: {
+                height: "350px",
+              },
+              xs: {
+                height: "350px",
+              },
+            }}
+            width={"785px"}
+          >
             <ItemBox
-              title={"Demo"}
-              image={demoImg}
-              style={{ width: "136px", height: "90px" }}
-              description={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-              }
-              link={"/games/1"}
+              title={games[4]?.name}
+              image={`${process.env.REACT_APP_S3}/images/${games[4]?.thumbnail}`}
+              style={{ width: "100%", height: "100%" }}
+              description={games[4]?.description}
+              link={`/games/${games[4]?.id}`}
             />
           </Box>
-        </Box>
-      </Box>
-      <Box
-        display={"flex"}
-        flexDirection={"row"}
-        height={"100%"}
-        width={"785px"}
-      >
-        <ItemBox
-          title={"Demo"}
-          image={demoImg}
-          style={{ height: "100%", width: "100%" }}
-          description={
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-          }
-          link={"/games/1"}
-        />
-      </Box>
+        </>
+      )}
     </Grid>
   );
 }

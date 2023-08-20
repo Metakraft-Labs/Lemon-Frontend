@@ -1,16 +1,43 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
-import React, { useContext } from "react";
-import demoImg from "../../../assets/images/demoimg.png";
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { list } from "../../../apis/entities";
+import Button from "../../../components/Button";
 import ItemBox from "../../../components/ItemBox";
 import UserStore from "../../../contexts/UserStore";
 
 export default function AiList() {
   const { theme } = useContext(UserStore);
+  const [ai, setAi] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({});
+
+  const fetchAI = useCallback(async () => {
+    const res = await list({ type: "ai", page });
+
+    setAi((prev) => {
+      if (prev) {
+        return [...prev, ...(res?.data || [])];
+      } else {
+        return res?.data || [];
+      }
+    });
+    setPagination(res?.pagination || {});
+  }, [page]);
+
+  useEffect(() => {
+    fetchAI();
+  }, [fetchAI]);
 
   return (
     <Box padding={"20px"}>
       <Typography variant="h1" fontSize={"50px"} fontWeight={"700"}>
-        AI
+        AI Bots
       </Typography>
       <Divider
         sx={{
@@ -35,31 +62,42 @@ export default function AiList() {
         pt={"10px"}
         mt={"53px"}
       >
-        <ItemBox
-          title={"Demo"}
-          image={demoImg}
-          description={
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-          }
-          link={"/ai-bots/1"}
-        />
-        <ItemBox
-          title={"Demo"}
-          image={demoImg}
-          description={
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-          }
-          link={"/ai-bots/1"}
-        />
-        <ItemBox
-          title={"Demo"}
-          image={demoImg}
-          description={
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-          }
-          link={"/ai-bots/1"}
-        />
+        {!ai ? (
+          <CircularProgress />
+        ) : !ai?.length ? (
+          <Typography>No AI found</Typography>
+        ) : (
+          ai?.map((ai, index) => {
+            return (
+              <ItemBox
+                key={index}
+                image={`${process.env.REACT_APP_S3}/images/${ai?.thumbnail}`}
+                title={ai?.name}
+                description={ai?.description}
+                link={`/ai-bots/${ai?.id}`}
+              />
+            );
+          })
+        )}
       </Grid>
+      {pagination?.next_page ? (
+        <Box
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          mt="30px"
+        >
+          <Button
+            onClick={() => {
+              setPage(pagination?.next_page);
+            }}
+          >
+            Load More
+          </Button>
+        </Box>
+      ) : (
+        ""
+      )}
     </Box>
   );
 }

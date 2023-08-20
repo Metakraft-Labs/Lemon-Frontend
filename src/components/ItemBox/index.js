@@ -12,7 +12,14 @@ export default function ItemBox({
   const ref = useRef(0);
 
   return (
-    <Link to={link || "#"} style={{ textDecoration: "none" }}>
+    <Link
+      to={link || "#"}
+      style={{
+        textDecoration: "none",
+        height: style?.height || "257px",
+        width: style.width || "357px",
+      }}
+    >
       <Box
         sx={{
           width: "357px",

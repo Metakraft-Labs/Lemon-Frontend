@@ -1,18 +1,36 @@
-import { Box, Grid, IconButton, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   AiOutlineFacebook,
   AiOutlineInstagram,
   AiOutlineTwitter,
   AiOutlineWhatsApp,
 } from "react-icons/ai";
-import demoImg from "../../../assets/images/demoimg.png";
+import { list } from "../../../apis/entities";
 import Input from "../../../components/Input";
 import ItemBox from "../../../components/ItemBox";
 import UserStore from "../../../contexts/UserStore";
 
 export default function Ai() {
   const { theme } = useContext(UserStore);
+
+  const [ai, setAi] = useState(null);
+
+  const fetchAi = useCallback(async () => {
+    const res = await list({ type: "ai", limit: 5 });
+
+    setAi(res?.data || []);
+  }, []);
+
+  useEffect(() => {
+    fetchAi();
+  }, [fetchAi]);
 
   return (
     <Grid
@@ -89,41 +107,43 @@ export default function Ai() {
           </IconButton>
         </Box>
       </Box>
-      <Box
-        borderRadius={"20px"}
-        width={"224px"}
-        display={"flex"}
-        flexDirection={"column"}
-        gap={"24px"}
-      >
-        <ItemBox
-          title={"Demo"}
-          style={{ width: "100%", height: "224px" }}
-          image={demoImg}
-          description={
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-          }
-          link={"/ai-bots/1"}
-        />
-        <ItemBox
-          title={"Demo"}
-          style={{ width: "100%", height: "224px" }}
-          image={demoImg}
-          description={
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-          }
-          link={"/ai-bots/1"}
-        />
-      </Box>
-      <ItemBox
-        title={"Demo"}
-        style={{ width: "470px", height: "472px" }}
-        image={demoImg}
-        description={
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-        }
-        link={"/ai-bots/1"}
-      />
+      {!ai ? (
+        <CircularProgress />
+      ) : !ai?.length ? (
+        <Typography>No AI bots found</Typography>
+      ) : (
+        <>
+          <Box
+            borderRadius={"20px"}
+            width={"224px"}
+            display={"flex"}
+            flexDirection={"column"}
+            gap={"24px"}
+          >
+            <ItemBox
+              title={ai[0]?.name}
+              style={{ width: "100%", height: "224px" }}
+              image={`${process.env.REACT_APP_S3}/images/${ai[0]?.thumbnail}`}
+              description={ai[0]?.description}
+              link={`/ai-bots/${ai[0]?.id}`}
+            />
+            <ItemBox
+              title={ai[1]?.name}
+              style={{ width: "100%", height: "224px" }}
+              image={`${process.env.REACT_APP_S3}/images/${ai[1]?.thumbnail}`}
+              description={ai[1]?.description}
+              link={`/ai-bots/${ai[1]?.id}`}
+            />
+          </Box>
+          <ItemBox
+            title={ai[2]?.name}
+            style={{ width: "470px", height: "472px" }}
+            image={`${process.env.REACT_APP_S3}/images/${ai[2]?.thumbnail}`}
+            description={ai[2]?.description}
+            link={`/ai-bots/${ai[2]?.id}`}
+          />
+        </>
+      )}
     </Grid>
   );
 }

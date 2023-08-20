@@ -1,15 +1,26 @@
-import { Box, IconButton, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { list } from "../../../apis/entities";
 import { ReactComponent as LeftArrowIcon } from "../../../assets/icons/left-arrow.svg";
 import { ReactComponent as RightArrowIcon } from "../../../assets/icons/right-arrow.svg";
 import consoleImage from "../../../assets/images/console.png";
-import demoImg from "../../../assets/images/demoimg.png";
 import ItemBox from "../../../components/ItemBox";
 
 export default function Header() {
   const [selectedSlide, setSelectedSlide] = useState(0);
+  const [entities, setEntities] = useState(null);
+
+  const fetchEntities = useCallback(async () => {
+    const res = await list();
+
+    setEntities(res?.data || []);
+  }, []);
+
+  useEffect(() => {
+    fetchEntities();
+  }, [fetchEntities]);
 
   return (
     <Box
@@ -58,41 +69,32 @@ export default function Header() {
           autoPlay={true}
           showArrows={false}
           infiniteLoop={true}
+          centerMode={true}
+          centerSlidePercentage={100 / 3}
         >
-          <Box display={"flex"} gap="10px">
-            <ItemBox
-              image={demoImg}
-              title={"Demo"}
-              description={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-              }
-              link={"/metaverse/1"}
-            />
-            <ItemBox
-              image={demoImg}
-              title={"Demo"}
-              description={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-              }
-              link={"/metaverse/1"}
-            />
-            <ItemBox
-              image={demoImg}
-              title={"Demo"}
-              description={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-              }
-              link={"/metaverse/1"}
-            />
-            <ItemBox
-              image={demoImg}
-              title={"Demo"}
-              description={
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
-              }
-              link={"/metaverse/1"}
-            />
-          </Box>
+          {!entities ? (
+            <CircularProgress />
+          ) : !entities?.length ? (
+            <Typography>No entity found</Typography>
+          ) : (
+            entities?.map((entity, index) => {
+              return (
+                <ItemBox
+                  key={index}
+                  image={`${process.env.REACT_APP_S3}/images/${entity?.thumbnail}`}
+                  title={entity?.name}
+                  description={entity?.description}
+                  link={`/${
+                    entity?.type === "ai"
+                      ? "ai-bots"
+                      : entity?.type === "ai"
+                      ? "games"
+                      : entity?.type
+                  }/${entity?.id}`}
+                />
+              );
+            })
+          )}
         </Carousel>
       </Box>
     </Box>
