@@ -87,7 +87,7 @@ export default function Header() {
                   link={`/${
                     entity?.type === "ai"
                       ? "ai-bots"
-                      : entity?.type === "ai"
+                      : entity?.type === "game"
                       ? "games"
                       : entity?.type
                   }/${entity?.id}`}

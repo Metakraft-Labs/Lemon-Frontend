@@ -22,3 +22,15 @@ export const list = async ({
     );
   }
 };
+
+export const get = async ({ id } = {}) => {
+  try {
+    const res = await noAuth({ method: "GET", url: `/entity/${id}` });
+
+    return res?.data;
+  } catch (err) {
+    toast.error(
+      err?.response?.data?.message || err?.message || "Something went wrong"
+    );
+  }
+};
