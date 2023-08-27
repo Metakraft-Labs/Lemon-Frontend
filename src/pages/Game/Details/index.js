@@ -95,7 +95,7 @@ export default function GameDetails() {
                 {game?.name}
               </Typography>
               <Box display={"flex"} justifyContent={"center"} gap="20px">
-                {/* <Button onClick={() => setOpen(true)}>Play Now</Button> */}
+                {/* <Button onClick={() => setOpen(true)}>Play Now </Button> */}
                 <Button onClick={mint}>Mint Now</Button>
               </Box>
             </Box>
