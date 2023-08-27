@@ -71,7 +71,7 @@ export default function GameList() {
             return (
               <ItemBox
                 key={index}
-                image={`${process.env.REACT_APP_S3}/images/${game?.thumbnail}`}
+                image={game?.thumbnail}
                 title={game?.name}
                 description={game?.description}
                 link={`/games/${game?.id}`}

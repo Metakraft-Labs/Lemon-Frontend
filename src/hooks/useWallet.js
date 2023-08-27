@@ -1,11 +1,13 @@
 import { useConnectWallet } from "@web3-onboard/react";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import { login, status } from "../apis/auth";
 import UserStore from "../contexts/UserStore";
 
-export const useWallet = () => {
+export const useWallet = ({ showModal, setShowModal }) => {
   const [{ wallet }, connect, disconnect] = useConnectWallet();
-  const { setDefaultAccount, setUser, setToken } = useContext(UserStore);
+  const { setDefaultAccount, setUser, setToken, token, user } =
+    useContext(UserStore);
 
   const connectWalletHandler = async (connectionRequired = false) => {
     if (!wallet) {
@@ -19,6 +21,29 @@ export const useWallet = () => {
           );
         return;
       }
+
+      if (user || token || localStorage?.getItem("token")) {
+        if (!user) {
+          const res = await status();
+          if (res) {
+            setUser(res);
+          }
+        }
+        setToken(token);
+      } else {
+        const res = await login({ wallet: accounts[0]?.address });
+        if (res) {
+          setToken(res);
+          localStorage.setItem("token", res);
+          const data = await status();
+          if (data) {
+            setUser(data);
+          }
+        } else {
+          setShowModal(true);
+        }
+      }
+
       setDefaultAccount(accounts[0]);
     }
   };

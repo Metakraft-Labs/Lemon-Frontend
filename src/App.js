@@ -75,7 +75,13 @@ function App() {
   const getStatus = useCallback(async () => {
     if ((localStorage.getItem("token") || token) && !user) {
       const res = await status();
-      setUser(res.data);
+      if (res) {
+        setUser(res);
+        setToken(localStorage?.getItem("token"));
+      } else {
+        setToken(null);
+        localStorage.removeItem("token");
+      }
     }
   }, [user, token]);
 

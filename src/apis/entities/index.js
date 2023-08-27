@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { noAuth } from "../index";
+import { auth, noAuth } from "../index";
 
 export const list = async ({
   type,
@@ -26,6 +26,36 @@ export const list = async ({
 export const get = async ({ id } = {}) => {
   try {
     const res = await noAuth({ method: "GET", url: `/entity/${id}` });
+
+    return res?.data;
+  } catch (err) {
+    toast.error(
+      err?.response?.data?.message || err?.message || "Something went wrong"
+    );
+  }
+};
+
+export const post = async ({
+  type,
+  name,
+  description,
+  thumbnail,
+  link,
+  zip = null,
+} = {}) => {
+  try {
+    const res = await auth({
+      method: "POST",
+      url: `/entity`,
+      data: {
+        type,
+        name,
+        description,
+        thumbnail,
+        ...(zip ? { zip } : {}),
+        ...(link ? { link } : {}),
+      },
+    });
 
     return res?.data;
   } catch (err) {

@@ -123,14 +123,14 @@ export default function Ai() {
             <ItemBox
               title={ai[0]?.name}
               style={{ width: "100%", height: "224px" }}
-              image={`${process.env.REACT_APP_S3}/images/${ai[0]?.thumbnail}`}
+              image={ai[0]?.thumbnail}
               description={ai[0]?.description}
               link={`/ai-bots/${ai[0]?.id}`}
             />
             <ItemBox
               title={ai[1]?.name}
               style={{ width: "100%", height: "224px" }}
-              image={`${process.env.REACT_APP_S3}/images/${ai[1]?.thumbnail}`}
+              image={ai[1]?.thumbnail}
               description={ai[1]?.description}
               link={`/ai-bots/${ai[1]?.id}`}
             />
@@ -138,7 +138,7 @@ export default function Ai() {
           <ItemBox
             title={ai[2]?.name}
             style={{ width: "470px", height: "472px" }}
-            image={`${process.env.REACT_APP_S3}/images/${ai[2]?.thumbnail}`}
+            image={ai[2]?.thumbnail}
             description={ai[2]?.description}
             link={`/ai-bots/${ai[2]?.id}`}
           />

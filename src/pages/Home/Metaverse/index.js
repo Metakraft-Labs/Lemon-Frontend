@@ -40,21 +40,21 @@ export default function Metaverse() {
           <ItemBox
             title={metaverse[0]?.name}
             style={{ width: "400px", height: "400px" }}
-            image={`${process.env.REACT_APP_S3}/images/${metaverse[0]?.thumbnail}`}
+            image={metaverse[0]?.thumbnail}
             description={metaverse[0]?.description}
             link={`/metaverse/${metaverse[0]?.id}`}
           />
           <ItemBox
             title={metaverse[1]?.name}
             style={{ width: "400px", height: "400px" }}
-            image={`${process.env.REACT_APP_S3}/images/${metaverse[1]?.thumbnail}`}
+            image={metaverse[1]?.thumbnail}
             description={metaverse[1]?.description}
             link={`/metaverse/${metaverse[1]?.id}`}
           />
           <ItemBox
             title={metaverse[2]?.name}
             style={{ width: "400px", height: "400px" }}
-            image={`${process.env.REACT_APP_S3}/images/${metaverse[2]?.thumbnail}`}
+            image={metaverse[2]?.thumbnail}
             description={metaverse[2]?.description}
             link={`/metaverse/${metaverse[2]?.id}`}
           />

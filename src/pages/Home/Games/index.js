@@ -63,7 +63,7 @@ export default function Games() {
           >
             <ItemBox
               title={games[0]?.name}
-              image={`${process.env.REACT_APP_S3}/images/${games[0]?.thumbnail}`}
+              image={games[0]?.thumbnail}
               style={{ width: "100%", height: "462px" }}
               description={games[0]?.description}
               link={`/games/${games[0]?.id}`}
@@ -71,7 +71,7 @@ export default function Games() {
             <Box display={"flex"} justifyContent={"space-between"}>
               <ItemBox
                 title={games[1]?.name}
-                image={`${process.env.REACT_APP_S3}/images/${games[1]?.thumbnail}`}
+                image={games[1]?.thumbnail}
                 style={{ width: "304px", height: "285px" }}
                 description={games[1]?.description}
                 link={`/games/${games[1]?.id}`}
@@ -83,14 +83,14 @@ export default function Games() {
               >
                 <ItemBox
                   title={games[2]?.name}
-                  image={`${process.env.REACT_APP_S3}/images/${games[2]?.thumbnail}`}
+                  image={games[2]?.thumbnail}
                   style={{ width: "137px", height: "136px" }}
                   description={games[2]?.description}
                   link={`/games/${games[2]?.id}`}
                 />
                 <ItemBox
                   title={games[3]?.name}
-                  image={`${process.env.REACT_APP_S3}/images/${games[3]?.thumbnail}`}
+                  image={games[3]?.thumbnail}
                   style={{ width: "137px", height: "136px" }}
                   description={games[3]?.description}
                   link={`/games/${games[3]?.id}`}
@@ -122,7 +122,7 @@ export default function Games() {
           >
             <ItemBox
               title={games[4]?.name}
-              image={`${process.env.REACT_APP_S3}/images/${games[4]?.thumbnail}`}
+              image={games[4]?.thumbnail}
               style={{ width: "100%", height: "100%" }}
               description={games[4]?.description}
               link={`/games/${games[4]?.id}`}

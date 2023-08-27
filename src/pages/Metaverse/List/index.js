@@ -71,7 +71,7 @@ export default function MetaverseList() {
             return (
               <ItemBox
                 key={index}
-                image={`${process.env.REACT_APP_S3}/images/${meta?.thumbnail}`}
+                image={meta?.thumbnail}
                 title={meta?.name}
                 description={meta?.description}
                 link={`/metaverse/${meta?.id}`}

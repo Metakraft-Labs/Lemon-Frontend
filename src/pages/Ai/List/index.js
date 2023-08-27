@@ -71,7 +71,7 @@ export default function AiList() {
             return (
               <ItemBox
                 key={index}
-                image={`${process.env.REACT_APP_S3}/images/${ai?.thumbnail}`}
+                image={ai?.thumbnail}
                 title={ai?.name}
                 description={ai?.description}
                 link={`/ai-bots/${ai?.id}`}

@@ -37,7 +37,7 @@ export default function GameDetails() {
             sx={{
               width: "100%",
               height: "500px",
-              background: `url(${`${process.env.REACT_APP_S3}/images/${game?.thumbnail}`})`,
+              background: `url(${game?.thumbnail})`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 500px",
               backgroundPosition: "center",
@@ -68,7 +68,10 @@ export default function GameDetails() {
           </Box>
           <Box p={"30px"}>
             <Typography variant="h3">Description</Typography>
-            <Typography variant="h6">{game?.description}</Typography>
+            <Typography
+              variant="h6"
+              dangerouslySetInnerHTML={{ __html: game?.description }}
+            />
           </Box>
           <Box borderTop={"1px solid black"}>
             <Footer />

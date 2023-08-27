@@ -81,7 +81,7 @@ export default function Header() {
               return (
                 <ItemBox
                   key={index}
-                  image={`${process.env.REACT_APP_S3}/images/${entity?.thumbnail}`}
+                  image={entity?.thumbnail}
                   title={entity?.name}
                   description={entity?.description}
                   link={`/${

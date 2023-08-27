@@ -2,38 +2,54 @@ import { toast } from "react-toastify";
 import { auth, noAuth } from "../index";
 
 export const login = async ({ wallet }) => {
-    try {
-        const res = await noAuth({ method: "POST", url: "/auth/login", data: { wallet } });
+  try {
+    const res = await noAuth({
+      method: "POST",
+      url: "/auth/login",
+      data: { wallet },
+    });
 
-        return res?.data;
-    }
-    catch (err) {
-        toast.error(err?.response?.data?.message || err?.message || "Something went wrong");
-    }
+    return res?.data;
+  } catch (err) {
+    toast.error(
+      err?.response?.data?.message || err?.message || "Something went wrong"
+    );
+  }
 };
 
-export const register = async ({ email, wallet, ref_code }) => {
-    try {
-        const res = await noAuth({ method: "POST", url: "/auth/register", data: { email, ...(wallet ? { wallet } : {}), ...(ref_code ? { ref_code } : {}) } });
+export const register = async ({ email, name, wallet, ref_code }) => {
+  try {
+    const res = await noAuth({
+      method: "POST",
+      url: "/auth/register",
+      data: {
+        email,
+        name,
+        ...(wallet ? { wallet } : {}),
+        ...(ref_code ? { ref_code } : {}),
+      },
+    });
 
-        return res?.data;
-    }
-    catch (err) {
-        toast.error(err?.response?.data?.message || err?.message || "Something went wrong");
-    }
+    return res?.data;
+  } catch (err) {
+    toast.error(
+      err?.response?.data?.message || err?.message || "Something went wrong"
+    );
+  }
 };
 
 export const status = async () => {
-    try {
-        const res = await auth({ method: "GET", url: "/auth/status" });
+  try {
+    const res = await auth({ method: "GET", url: "/auth/status" });
 
-        return res?.data;
+    return res?.data;
+  } catch (err) {
+    if (err?.response?.data?.message === "Invalid auth token provided") {
+      localStorage.removeItem("token");
+      return;
     }
-    catch (err) {
-        if (err?.response?.data?.message === "Invalid auth token provided") {
-            localStorage.removeItem("token");
-            return;
-        }
-        toast.error(err?.response?.data?.message || err?.message || "Something went wrong");
-    }
+    toast.error(
+      err?.response?.data?.message || err?.message || "Something went wrong"
+    );
+  }
 };

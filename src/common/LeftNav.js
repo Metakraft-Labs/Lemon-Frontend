@@ -18,11 +18,20 @@ import UserStore from "../contexts/UserStore";
 import { useWallet } from "../hooks/useWallet";
 import { Links } from "./Links";
 
-export default function LeftNav({ leftOpen, handleTheme }) {
+export default function LeftNav({
+  leftOpen,
+  handleTheme,
+  showModal,
+  setShowModal,
+  setShowLaunchModal,
+}) {
   const [open, setOpen] = useState(true);
-  const { theme } = useContext(UserStore);
+  const { theme, user } = useContext(UserStore);
   const [{ wallet, connecting }] = useConnectWallet();
-  const { connectWalletHandler, disconnectWalletHandler } = useWallet();
+  const { connectWalletHandler, disconnectWalletHandler } = useWallet({
+    showModal,
+    setShowModal,
+  });
 
   return (
     <Drawer
@@ -87,23 +96,6 @@ export default function LeftNav({ leftOpen, handleTheme }) {
           </ListItemButton>
 
           <Divider />
-
-          <ListItem>
-            <ButtonComponent
-              color={"#FFFFFF"}
-              fontColor={"#000000"}
-              style={{
-                letterSpacing: "1.64px",
-                "&:hover": {
-                  color: "#FFFFFF",
-                  background:
-                    "linear-gradient(43deg, #DAAD76 0%, #FA4947 100%)",
-                },
-              }}
-            >
-              Contact Us
-            </ButtonComponent>
-          </ListItem>
           <ListItem>
             <ButtonComponent
               startIcon={<WalletIcon />}
