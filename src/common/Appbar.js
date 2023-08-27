@@ -146,6 +146,7 @@ export default function Appbar(props) {
       toast.error("Thumbnail is required in case of games");
       return;
     }
+    setIsSubmit(true);
 
     const data = {
       name: entityName,
@@ -166,6 +167,8 @@ export default function Appbar(props) {
       toast.success("Uploaded successfully");
       setShowLaunchModal(false);
     }
+
+    setIsSubmit(false);
   };
 
   return (
