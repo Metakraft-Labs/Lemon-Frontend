@@ -60,11 +60,17 @@ export default function ItemBox({
           >
             {title}
           </Typography>
-          <Typography textAlign={"center"} fontSize={"20px"} color={"#FFFFFF"}>
-            {description?.length > 193
-              ? description?.substring(0, 190) + "..."
-              : description}
-          </Typography>
+          <Typography
+            textAlign={"center"}
+            fontSize={"20px"}
+            color={"#FFFFFF"}
+            dangerouslySetInnerHTML={{
+              __html:
+                description?.length > 193
+                  ? description?.substring(0, 190) + "..."
+                  : description,
+            }}
+          />
         </Box>
       </Box>
     </Link>

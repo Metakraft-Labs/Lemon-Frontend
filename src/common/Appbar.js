@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, status } from "../apis/auth";
 import { post as createEntity } from "../apis/entities";
-import { uploadFile } from "../apis/upload";
+import { uploadFile, uploadS3 } from "../apis/upload";
 import { ReactComponent as WalletIcon } from "../assets/icons/wallet.svg";
 import ButtonComponent from "../components/Button";
 import Search from "../components/Search";
@@ -160,6 +160,9 @@ export default function Appbar(props) {
     const res = await createEntity(data);
 
     if (res) {
+      if (entityZip) {
+        await uploadS3(uploadZipInput.current.files[0], res?.slug);
+      }
       toast.success("Uploaded successfully");
       setShowLaunchModal(false);
     }

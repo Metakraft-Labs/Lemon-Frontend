@@ -95,7 +95,7 @@ export default function GameDetails() {
                 {game?.name}
               </Typography>
               <Box display={"flex"} justifyContent={"center"} gap="20px">
-                {/* <Button onClick={() => setOpen(true)}>Play Now</Button> */}
+                <Button onClick={() => setOpen(true)}>Play Now</Button>
                 <Button onClick={mint}>Mint Now</Button>
               </Box>
             </Box>
@@ -127,9 +127,7 @@ export default function GameDetails() {
                 title={game?.name}
                 height={"80%"}
                 width={"80%"}
-                src={`${process.env.REACT_APP_S3}/games/${
-                  game?.zip?.split(".zip")[0] + "-" + game?.slug
-                }/index.html`}
+                src={`${process.env.REACT_APP_S3}/games/${game?.slug}/index.html`}
               />
 
               <Button onClick={() => setOpen(false)}>Close</Button>
