@@ -20,7 +20,7 @@ import { BsMoonFill, BsSun } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, status } from "../apis/auth";
 import { post as createEntity } from "../apis/entities";
@@ -50,6 +50,7 @@ export default function Appbar(props) {
   const { theme, setTheme, defaultAccount, setUser, setToken, user } =
     useContext(UserStore);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
   const [showLaunchModal, setShowLaunchModal] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [name, setName] = useState("");
@@ -166,6 +167,15 @@ export default function Appbar(props) {
       }
       toast.success("Uploaded successfully");
       setShowLaunchModal(false);
+      navigate(
+        `${
+          res?.type === "game"
+            ? "games"
+            : res?.type === "ai"
+            ? "ai-bots"
+            : res?.type
+        }/${res.id}`
+      );
     }
 
     setIsSubmit(false);
