@@ -1,14 +1,23 @@
 import { Box, CircularProgress, Modal, Typography } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import { useConnectWallet } from "@web3-onboard/react";
+import { Contract, ethers } from "ethers";
+import React, { useCallback, useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { get } from "../../../apis/entities";
+import abi from "../../../assets/abi/nftContract.json";
 import Button from "../../../components/Button";
 import Footer from "../../../components/Footer";
+import UserStore from "../../../contexts/UserStore";
 import Title from "../../../shared/Title";
+
+const CONTRACT = "0xe61AbaFeB1BCc00371890696f0ef3b28899b6b19";
 
 export default function GameDetails() {
   const [game, setGame] = useState(null);
   const { id } = useParams();
+  const [{ wallet }] = useConnectWallet();
+  const { defaultAccount } = useContext(UserStore);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -25,6 +34,28 @@ export default function GameDetails() {
   useState(() => {
     fetchGame();
   }, [fetchGame]);
+
+  const mint = async () => {
+    if (!wallet) {
+      toast.error("Please connect to wallet first");
+      return;
+    }
+    try {
+      const ethersProvider = new ethers.BrowserProvider(wallet.provider, "any");
+      const signer = await ethersProvider?.getSigner();
+      const contract = new Contract(CONTRACT, abi, signer);
+
+      const tx = await contract.mint(defaultAccount?.address, game?.zip);
+
+      const receipt = await tx.wait();
+
+      if (receipt) {
+        toast.success("Minting done");
+      }
+    } catch (err) {
+      toast.error("Error");
+    }
+  };
 
   return (
     <>
@@ -63,7 +94,10 @@ export default function GameDetails() {
               >
                 {game?.name}
               </Typography>
-              <Button onClick={() => setOpen(true)}>Play Now</Button>
+              <Box display={"flex"} justifyContent={"center"} gap="20px">
+                {/* <Button onClick={() => setOpen(true)}>Play Now</Button> */}
+                <Button onClick={mint}>Mint Now</Button>
+              </Box>
             </Box>
           </Box>
           <Box p={"30px"}>

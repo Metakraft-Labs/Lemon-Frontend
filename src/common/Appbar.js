@@ -154,6 +154,7 @@ export default function Appbar(props) {
       thumbnail: entityThumbnail,
       link: entityLink,
       zip: entityZip,
+      images: [entityThumbnail],
     };
 
     const res = await createEntity(data);
@@ -270,6 +271,25 @@ export default function Appbar(props) {
                 gap: "31px",
               }}
             >
+              {!user ? (
+                ""
+              ) : (
+                <ButtonComponent
+                  color={"#FFFFFF"}
+                  onClick={() => setShowLaunchModal(true)}
+                  fontColor={"#000000"}
+                  style={{
+                    letterSpacing: "1.64px",
+                    "&:hover": {
+                      color: "#FFFFFF",
+                      background:
+                        "linear-gradient(43deg, #DAAD76 0%, #FA4947 100%)",
+                    },
+                  }}
+                >
+                  Launch App
+                </ButtonComponent>
+              )}
               <ButtonComponent
                 startIcon={<WalletIcon />}
                 disabled={connecting}

@@ -96,6 +96,28 @@ export default function LeftNav({
           </ListItemButton>
 
           <Divider />
+
+          {user ? (
+            <ListItem>
+              <ButtonComponent
+                onClick={() => setShowLaunchModal(true)}
+                color={"#FFFFFF"}
+                fontColor={"#000000"}
+                style={{
+                  letterSpacing: "1.64px",
+                  "&:hover": {
+                    color: "#FFFFFF",
+                    background:
+                      "linear-gradient(43deg, #DAAD76 0%, #FA4947 100%)",
+                  },
+                }}
+              >
+                Launch App
+              </ButtonComponent>
+            </ListItem>
+          ) : (
+            ""
+          )}
           <ListItem>
             <ButtonComponent
               startIcon={<WalletIcon />}

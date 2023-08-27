@@ -41,6 +41,7 @@ export const post = async ({
   description,
   thumbnail,
   link,
+  images,
   zip = null,
 } = {}) => {
   try {
@@ -52,6 +53,7 @@ export const post = async ({
         name,
         description,
         thumbnail,
+        images,
         ...(zip ? { zip } : {}),
         ...(link ? { link } : {}),
       },
