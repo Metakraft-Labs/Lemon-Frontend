@@ -9,7 +9,7 @@ export const uploadFile = async (file) => {
 
     const res = await auth({
       method: "POST",
-      url: "/upload",
+      url: "/upload/single-s3",
       data: formData,
       options: {
         headers: {

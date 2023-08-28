@@ -109,10 +109,7 @@ export default function Appbar(props) {
     const data = await uploadFile(uploadThumbnailInput.current.files[0]);
 
     if (data) {
-      const { object_id, container_id } = data;
-
-      const url = `${process.env.REACT_APP_NEO_FS_URL}/get/${container_id}/${object_id}`;
-      setEntityThumbnail(url);
+      setEntityThumbnail(data);
 
       toast.success("Thumbnail uploaded successfully");
     }
@@ -126,10 +123,7 @@ export default function Appbar(props) {
     const data = await uploadFile(uploadZipInput.current.files[0]);
 
     if (data) {
-      const { object_id, container_id } = data;
-
-      const url = `${process.env.REACT_APP_NEO_FS_URL}/get/${container_id}/${object_id}`;
-      setEntityZip(url);
+      setEntityZip(data);
 
       toast.success("Zip uploaded successfully");
     }
